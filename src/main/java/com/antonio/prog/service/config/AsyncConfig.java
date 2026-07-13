@@ -1,4 +1,4 @@
-package com.antonio.prog.service;
+package com.antonio.prog.service.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
