@@ -85,6 +85,12 @@ jobs:
           echo "to_upload_filename=$(echo $response | jq -r '.filename')" >> $GITHUB_ENV
           curl -X GET -o template.yml "$(echo $response | jq -r '.build_template_file_uri')"
 
+      - name: Pre-download Gradle dependencies
+        run: |
+          chmod +x ./gradlew
+          # Pre-fetch project dependencies so SAM's Gradle build can reuse them
+          ./gradlew build -x test --no-daemon
+
       - name: Build project
         run: sam build
 

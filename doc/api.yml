@@ -1,0 +1,109 @@
+(openapi: 3.0.3)
+info:
+	title: File Sending API
+	version: 1.0.0
+	description: API for uploading and retrieving image files and metadata
+servers:
+	- url: /
+paths:
+	/images:
+		post:
+			tags:
+				- images
+			summary: Upload an image
+			operationId: uploadImage
+			requestBody:
+				required: true
+				content:
+					multipart/form-data:
+						schema:
+							type: object
+							properties:
+								file:
+									type: string
+									format: binary
+								email:
+									type: string
+									format: email
+							required:
+								- file
+			responses:
+				'201':
+					description: Image uploaded and metadata stored
+					headers:
+						Location:
+							description: Resource location
+							schema:
+								type: string
+					content:
+						application/json:
+							schema:
+								$ref: '#/components/schemas/ImageMetadata'
+				'202':
+					description: Accepted for asynchronous processing
+				'400':
+					description: Bad Request
+
+	/images/{id}:
+		get:
+			tags:
+				- images
+			summary: Get image metadata
+			operationId: getImageMetadata
+			parameters:
+				- name: id
+					in: path
+					required: true
+					schema:
+						type: string
+			responses:
+				'200':
+					description: Image metadata
+					content:
+						application/json:
+							schema:
+								$ref: '#/components/schemas/ImageMetadata'
+				'404':
+					description: Not Found
+
+	/images/{id}/content:
+		get:
+			tags:
+				- images
+			summary: Get raw image content
+			operationId: getImageContent
+			parameters:
+				- name: id
+					in: path
+					required: true
+					schema:
+						type: string
+			responses:
+				'200':
+					description: Image binary
+					content:
+						image/*:
+							schema:
+								type: string
+								format: binary
+				'404':
+					description: Not Found
+
+components:
+	schemas:
+		ImageMetadata:
+			type: object
+			properties:
+				id:
+					type: string
+				filename:
+					type: string
+				email:
+					type: string
+				createdAt:
+					type: string
+					format: date-time
+			required:
+				- id
+				- filename
+
