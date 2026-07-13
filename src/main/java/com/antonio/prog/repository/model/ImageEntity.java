@@ -1,9 +1,9 @@
 package com.antonio.prog.repository.model;
 
-import java.time.Instant;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageEntity {
-  @Id
-  private String id;
+  @Id private String id;
   private String nomFichier;
   private String email;
   private Instant createdAt;

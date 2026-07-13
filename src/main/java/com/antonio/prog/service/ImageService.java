@@ -82,8 +82,9 @@ public class ImageService {
 
   private BufferedImage toBlackAndWhite(File imageFile) throws IOException {
     var colorImage = ImageIO.read(imageFile);
-    var bwImage = new BufferedImage(
-        colorImage.getWidth(), colorImage.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+    var bwImage =
+        new BufferedImage(
+            colorImage.getWidth(), colorImage.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
     var gray = bwImage.getGraphics();
     gray.drawImage(colorImage, 0, 0, Color.WHITE, null);
     gray.dispose();
@@ -91,9 +92,7 @@ public class ImageService {
   }
 
   public List<ImageResponse> getAllImages() {
-    return imageRepository.findAll().stream()
-        .map(this::toResponse)
-        .toList();
+    return imageRepository.findAll().stream().map(this::toResponse).toList();
   }
 
   private ImageResponse toResponse(ImageEntity entity) {
